@@ -1,93 +1,83 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>rosea_1.8</title>
+<title>متجر rosea_1.8</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-body{font-family:sans-serif;padding:20px;background:#fafafa;}
-.product{background:#fff;padding:15px;margin:10px 0;border-radius:8px}
-button{padding:10px;border:none;border-radius:6px;font-size:16px}
-#cartBtn{position:fixed;bottom:20px;left:20px}
+body {
+  font-family: sans-serif;
+  background: #fff;
+  margin: 20px;
+  direction: rtl;
+}
+h1 {
+  color: #ff4ea0;
+}
+.product {
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+.add-btn {
+  background: #ff4ea0;
+  color: white;
+  margin-bottom: 20px;
+}
+.save-btn {
+  background: #4CAF50;
+  color: white;
+}
+.cart-btn {
+  background: #2196F3;
+  color: white;
+  float: left;
+}
+input, select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+}
 </style>
 </head>
 <body>
-<h2>متجر rosea_1.8</h2>
 
-<div class="product">
-<h3>أسلاك شانيل</h3>
-<button onclick="addToCart('أسلاك شانيل')">أضف إلى السلة</button>
-</div>
+<h1>متجر rosea_1.8</h1>
 
-<div class="product">
-<h3>أشرطة ساتان</h3>
-<button onclick="addToCart('أشرطة ساتان')">أضف إلى السلة</button>
-</div>
+<a href="cart.html"><button class="cart-btn">السلة 🛒</button></a>
+<br><br><br>
 
-<div class="product">
-<h3>شريط فلور</h3>
-<button onclick="addToCart('شريط فلور')">أضف إلى السلة</button>
-</div>
+<button class="add-btn" onclick="toggleForm()">➕ إضافة منتج جديد</button>
 
-<div class="product">
-<h3>أغصان</h3>
-<button onclick="addToCart('أغصان')">أضف إلى السلة</button>
-</div>
-
-<button id="cartBtn" onclick="window.location='cart.html'">السلة 🛒</button>
-
-<script src="main.js"></script>
-</body>
-</html>
-<button 
-  style="
-    padding: 14px 25px;
-    background-color: #ff4ea0;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-  "
-  onclick="document.getElementById('addProductForm').style.display='block'">
-  ➕ إضافة منتج جديد
-</button>
-
-<div id="addProductForm" 
-     style="
-       display:none;
-       margin-top:20px;
-       padding:20px;
-       border:1px solid #ccc;
-       border-radius:10px;
-       background:#fff;
-     ">
-       
+<div id="form" style="display:none; border:1px solid #ccc; padding:15px; border-radius:10px; background:#fafafa;">
   <h3>إضافة منتج</h3>
 
-  <label>اسم المنتج:</label><br>
-  <input type="text" style="width:100%; padding:10px; margin-bottom:10px;"><br>
+  <label>اسم المنتج:</label>
+  <input id="pName">
 
-  <label>السعر:</label><br>
-  <input type="number" style="width:100%; padding:10px; margin-bottom:10px;"><br>
+  <label>السعر:</label>
+  <input id="pPrice" type="number">
 
-  <label>الألوان:</label><br>
-  <input type="text" placeholder="مثلاً: وردي، أبيض، أحمر" style="width:100%; padding:10px; margin-bottom:10px;"><br>
+  <label>الألوان (اكتب بالأسماء وافصل بفاصلة):</label>
+  <input id="pColors" placeholder="وردي، أحمر، أبيض">
 
-  <label>صورة المنتج:</label><br>
-  <input type="file" accept="image/*" style="margin-bottom:10px;"><br>
+  <label>صورة المنتج:</label>
+  <input id="pImg" type="file" accept="image/*">
 
-  <button 
-    style="
-      padding:12px 20px;
-      background-color:#4CAF50;
-      color:white;
-      border:none;
-      border-radius:8px;
-      cursor:pointer;
-      font-size:16px;
-    ">
-    ✔️ حفظ المنتج
-  </button>
+  <button class="save-btn" onclick="addProduct()">✔️ حفظ المنتج</button>
 </div>
+
+<h2>المنتجات</h2>
+<div id="products"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
