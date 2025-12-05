@@ -1,0 +1,41 @@
+// بيانات السلع
+const products = [
+  {
+    id: 1,
+    name: "سلعة 1",
+    price: 1000,
+    image: "image1.jpg"
+  },
+  {
+    id: 2,
+    name: "سلعة 2",
+    price: 2000,
+    image: "image2.jpg"
+  },
+  // ...
+];
+
+// عرض السلع
+const productsSection = document.getElementById("products");
+products.forEach((product) => {
+  const productElement = document.createElement("div");
+  productElement.classList.add("product");
+  productElement.innerHTML = `
+    <img src="${product.image}" alt="${product.name}">
+    <h2>${product.name}</h2>
+    <p>${product.price} دينار</p>
+    <button class="add-to-cart" data-id="${product.id}">إضافة إلى السلة</button>
+  `;
+  productsSection.appendChild(productElement);
+});
+
+// إضافة إلى السلة
+const addToCartButtons = document.querySelectorAll(".add-to-cart");
+addToCartButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const productId = button.dataset.id;
+    const product = products.find((product) => product.id === parseInt(productId));
+    // إضافة إلى السلة هنا
+    console.log(`تم إضافة ${product.name} إلى السلة`);
+  });
+});
