@@ -1,0 +1,15 @@
+my-shop-app/
+├─ App.js
+├─ package.json
+├─ src/
+│  ├─ navigation/
+│  │  └─ MainStack.js
+│  ├─ screens/
+│  │  ├─ HomeScreen.js
+│  │  ├─ ProductScreen.js
+│  │  ├─ CartScreen.js
+│  │  └─ CheckoutScreen.js
+│  ├─ components/
+│  │  └─ ProductCard.js
+│  └─ services/
+│     └─ api.js
