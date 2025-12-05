@@ -39,3 +39,55 @@ button{padding:10px;border:none;border-radius:6px;font-size:16px}
 <script src="main.js"></script>
 </body>
 </html>
+<button 
+  style="
+    padding: 14px 25px;
+    background-color: #ff4ea0;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+  "
+  onclick="document.getElementById('addProductForm').style.display='block'">
+  ➕ إضافة منتج جديد
+</button>
+
+<div id="addProductForm" 
+     style="
+       display:none;
+       margin-top:20px;
+       padding:20px;
+       border:1px solid #ccc;
+       border-radius:10px;
+       background:#fff;
+     ">
+       
+  <h3>إضافة منتج</h3>
+
+  <label>اسم المنتج:</label><br>
+  <input type="text" style="width:100%; padding:10px; margin-bottom:10px;"><br>
+
+  <label>السعر:</label><br>
+  <input type="number" style="width:100%; padding:10px; margin-bottom:10px;"><br>
+
+  <label>الألوان:</label><br>
+  <input type="text" placeholder="مثلاً: وردي، أبيض، أحمر" style="width:100%; padding:10px; margin-bottom:10px;"><br>
+
+  <label>صورة المنتج:</label><br>
+  <input type="file" accept="image/*" style="margin-bottom:10px;"><br>
+
+  <button 
+    style="
+      padding:12px 20px;
+      background-color:#4CAF50;
+      color:white;
+      border:none;
+      border-radius:8px;
+      cursor:pointer;
+      font-size:16px;
+    ">
+    ✔️ حفظ المنتج
+  </button>
+</div>
