@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>rosea_1.8</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{font-family:sans-serif;padding:20px;background:#fafafa;}
+.product{background:#fff;padding:15px;margin:10px 0;border-radius:8px}
+button{padding:10px;border:none;border-radius:6px;font-size:16px}
+#cartBtn{position:fixed;bottom:20px;left:20px}
+</style>
+</head>
+<body>
+<h2>متجر rosea_1.8</h2>
+
+<div class="product">
+<h3>أسلاك شانيل</h3>
+<button onclick="addToCart('أسلاك شانيل')">أضف إلى السلة</button>
+</div>
+
+<div class="product">
+<h3>أشرطة ساتان</h3>
+<button onclick="addToCart('أشرطة ساتان')">أضف إلى السلة</button>
+</div>
+
+<div class="product">
+<h3>شريط فلور</h3>
+<button onclick="addToCart('شريط فلور')">أضف إلى السلة</button>
+</div>
+
+<div class="product">
+<h3>أغصان</h3>
+<button onclick="addToCart('أغصان')">أضف إلى السلة</button>
+</div>
+
+<button id="cartBtn" onclick="window.location='cart.html'">السلة 🛒</button>
+
+<script src="main.js"></script>
+</body>
+</html>
