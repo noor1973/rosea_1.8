@@ -1,0 +1,9 @@
+‏npm install -g expo-cli
+
+‏expo init my-shop-app
+
+‏If you are a beginner with JS, I recommend JavaScript or TypeScript
+
+‏cd my-shop-app
+
+‏expo start
