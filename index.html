@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ar">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>متجري البسيط</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body dir="rtl">
+  <header>
+    <h1>متجري</h1>
+    <div id="cart-btn">
+      السلة (<span id="cart-count">0</span>)
+    </div>
+  </header>
+
+  <main>
+    <section id="products"></section>
+
+    <aside id="cart-panel" class="hidden">
+      <h2>سلتك</h2>
+      <div id="cart-items"></div>
+      <div class="cart-summary">
+        <div>المجموع: <span id="cart-total">0.00</span> $</div>
+        <button id="checkout-btn">شراء (محاكاة)</button>
+      </div>
+    </aside>
+  </main>
+
+  <template id="product-template">
+    <article class="product-card">
+      <img class="prod-img" src="" alt="" />
+      <h3 class="prod-title"></h3>
+      <p class="prod-desc"></p>
+      <div class="prod-price"></div>
+
+      <label>اللون:
+        <select class="color-select"></select>
+      </label>
+
+      <label>الكمية:
+        <input type="number" class="qty-input" value="1" min="1" />
+      </label>
+
+      <button class="add-to-cart">أضف إلى السلة</button>
+    </article>
+  </template>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
