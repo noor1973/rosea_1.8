@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>السلة - rosea_1.8</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  font-family: sans-serif;
+  direction: rtl;
+  margin: 20px;
+}
+.product {
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+button {
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.remove-btn {
+  background: #f44336;
+  color: white;
+}
+.clear-btn {
+  background: #000;
+  color: white;
+}
+</style>
+</head>
+<body>
+
+<h1>السلة 🛒</h1>
+<a href="index.html">رجوع للمتجر</a>
+<br><br>
+
+<div id="cartItems"></div>
+
+<button class="clear-btn" onclick="clearCart()">مسح السلة بالكامل</button>
+
+<script src="script.js"></script>
+</body>
+</html>
