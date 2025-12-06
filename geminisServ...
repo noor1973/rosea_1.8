@@ -1,0 +1,52 @@
+import { GoogleGenAI } from "@google/genai";
+
+const apiKey = process.env.API_KEY || '';
+const ai = new GoogleGenAI({ apiKey });
+
+export const generateProductDescription = async (productName: string, imageBase64?: string): Promise<string> => {
+  if (!apiKey) {
+    console.warn("API Key is missing.");
+    return "يرجى إعداد مفتاح API الخاص بـ Gemini لتفعيل هذه الميزة.";
+  }
+
+  try {
+    const prompt = `
+      اكتب وصفاً تسويقياً جذاباً وقصيراً (حوالي 30-40 كلمة) باللغة العربية لمنتج في متجر "Rosea_18" المختص بصناعة الورد الأبدي.
+      اسم المنتج: ${productName}.
+      
+      اجعل النبرة أنيقة، احترافية، ومشجعة على الشراء. ركز على الجودة والجمال.
+    `;
+
+    let response;
+
+    if (imageBase64) {
+      // Remove data URL prefix if present for Gemini API
+      const base64Data = imageBase64.split(',')[1]; 
+      
+      response = await ai.models.generateContent({
+        model: 'gemini-2.5-flash',
+        contents: {
+          parts: [
+            { text: prompt },
+            {
+              inlineData: {
+                mimeType: 'image/jpeg', // Assuming jpeg/png, API is flexible usually
+                data: base64Data
+              }
+            }
+          ]
+        }
+      });
+    } else {
+      response = await ai.models.generateContent({
+        model: 'gemini-2.5-flash',
+        contents: prompt,
+      });
+    }
+
+    return response.text || "لم يتم إنشاء وصف.";
+  } catch (error) {
+    console.error("Gemini Error:", error);
+    return "حدث خطأ أثناء إنشاء الوصف. يرجى المحاولة مرة أخرى.";
+  }
+};
