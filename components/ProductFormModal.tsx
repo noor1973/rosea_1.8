@@ -1,3 +1,13 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { Product } from '../types';
+
+import { db } from '../firebase';
+import {
+  addDoc,
+  updateDoc,
+  doc,
+  collection
+} from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Product } from '../types';
