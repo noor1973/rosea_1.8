@@ -54,20 +54,38 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({ isOpen, onCl
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-      
-    const finalData = {
-      name: formData.name,
-      price: formData.price,
-      category: formData.category,
-      images: formData.images.length > 0 ? formData.images : ['https://via.placeholder.com/400?text=No+Image'],
-      description: formData.description,
-      stock: formData.stock,
-    };
-    onSubmit(finalData);
-    onClose();
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  const finalData = {
+    name: formData.name,
+    price: formData.price,
+    category: formData.category,
+    images: formData.images.length > 0
+      ? formData.images
+      : ['https://via.placeholder.com/400?text=No+Image'],
+    description: formData.description,
+    stock: formData.stock,
+    createdAt: new Date(),
   };
+
+  try {
+    if (initialData?.id) {
+      // تعديل منتج
+      const ref = doc(db, 'products', initialData.id);
+      await updateDoc(ref, finalData);
+    } else {
+      // إضافة منتج جديد
+      await addDoc(collection(db, 'products'), finalData);
+    }
+
+    onClose();
+  } catch (error) {
+    console.error('Firebase error:', error);
+    alert('صار خطأ أثناء حفظ المنتج');
+  }
+};
+
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
