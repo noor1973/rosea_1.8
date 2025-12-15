@@ -9,130 +9,154 @@ interface ProductDetailsPageProps {
   onNavigate: (view: any) => void;
 }
 
-export const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({ product, onBack, onNavigate }) => {
+export const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({
+  product,
+  onBack,
+}) => {
   const { addToCart } = useCart();
-  const [quantity, setQuantity] = useState(1);
+
+  const images =
+    product.images && product.images.length > 0
+      ? product.images
+      : ['https://via.placeholder.com/600?text=No+Image'];
+
+  const [selectedImage, setSelectedImage] = useState(images[0]);
+  const [quantities, setQuantities] = useState<number[]>(
+    images.map(() => 0)
+  );
 
   const isOutOfStock = product.stock <= 0;
 
-  const handleIncrement = () => {
-    if (quantity < product.stock) {
-      setQuantity(q => q + 1);
-    }
-  };
-
-  const handleDecrement = () => {
-    if (quantity > 1) {
-      setQuantity(q => q - 1);
-    }
-  };
+  const totalSelected = quantities.reduce((a, b) => a + b, 0);
 
   const handleAddToCart = () => {
-    addToCart(product, quantity);
-    setQuantity(1);
-    // Optional: provide feedback
-    // alert("تمت الإضافة للسلة"); 
+    images.forEach((img, index) => {
+      if (quantities[index] > 0) {
+        addToCart(
+          {
+            ...product,
+            selectedImage: img,
+          } as any,
+          quantities[index]
+        );
+      }
+    });
   };
 
-  // Ensure there's at least one image
-  const images = product.images.length > 0 ? product.images : ['https://via.placeholder.com/600?text=No+Image'];
-
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 min-h-screen animate-in fade-in slide-in-from-bottom-4 duration-500">
-      {/* Breadcrumb / Back Button */}
-      <button 
+    <div className="max-w-7xl mx-auto px-4 py-8 min-h-screen">
+
+      {/* زر الرجوع */}
+      <button
         onClick={onBack}
-        className="flex items-center text-stone-500 hover:text-rose-600 mb-6 transition-colors font-medium"
+        className="mb-6 text-stone-500 hover:text-rose-600 font-medium"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 ml-2 rtl:rotate-180">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-        </svg>
-        العودة للمتجر
+        ← العودة للمتجر
       </button>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-        
-        {/* Right Column: Images with Controls */}
-        <div className="lg:col-span-8 flex flex-col gap-6">
-          {images.map((img, index) => (
-            <div key={index} className="flex flex-col sm:flex-row gap-6 bg-white p-4 rounded-2xl shadow-sm border border-stone-100 items-start sm:items-center">
-              {/* Image Area - Smaller size */}
-              <div className="w-full sm:w-48 h-48 bg-stone-100 rounded-xl overflow-hidden shadow-inner flex-shrink-0">
-                <img 
-                  src={img} 
-                  alt={`${product.name} - ${index + 1}`} 
-                  className={`w-full h-full object-cover ${isOutOfStock ? 'grayscale opacity-75' : ''}`}
-                  loading="lazy"
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+        {/* الصور */}
+        <div className="lg:col-span-8">
+
+          {/* الصورة الرئيسية */}
+          <div className="w-full aspect-square bg-stone-100 rounded-3xl overflow-hidden mb-6">
+            <img
+              src={selectedImage}
+              className="w-full h-full object-cover"
+            />
+          </div>
+
+          {/* الصور المصغرة (الألوان) */}
+          <div className="space-y-4">
+            {images.map((img, index) => (
+              <div
+                key={index}
+                className="flex items-center gap-4 bg-white p-3 rounded-2xl border"
+              >
+                <img
+                  src={img}
+                  onClick={() => setSelectedImage(img)}
+                  className={`w-20 h-20 rounded-xl object-cover cursor-pointer border-2 ${
+                    selectedImage === img
+                      ? 'border-rose-600'
+                      : 'border-transparent'
+                  }`}
                 />
-              </div>
 
-              {/* Controls Beside Image */}
-              <div className="flex-grow w-full">
-                <h3 className="text-lg font-bold text-stone-800 mb-2">خيار {index + 1}</h3>
-                <div className="text-xl font-bold text-rose-600 mb-4">
-                    {product.price.toLocaleString()} د.ع
-                </div>
-                
+                {/* التحكم بالكمية */}
                 {!isOutOfStock ? (
-                  <div className="flex flex-col gap-4">
-                     <div className="flex items-center bg-stone-50 rounded-xl border border-stone-200 p-1 w-fit">
-                        <span className="ml-3 mr-2 font-bold text-sm text-stone-600">الكمية:</span>
-                        <button 
-                          onClick={handleDecrement}
-                          className="w-8 h-8 flex items-center justify-center text-stone-500 hover:text-rose-600 hover:bg-white rounded-lg transition"
-                          disabled={quantity <= 1}
-                        > - </button>
-                        <span className="w-10 text-center font-bold text-stone-800">{quantity}</span>
-                        <button 
-                          onClick={handleIncrement}
-                          className="w-8 h-8 flex items-center justify-center text-stone-500 hover:text-rose-600 hover:bg-white rounded-lg transition"
-                          disabled={quantity >= product.stock}
-                        > + </button>
-                      </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => {
+                        const q = [...quantities];
+                        q[index] = Math.max(0, q[index] - 1);
+                        setQuantities(q);
+                      }}
+                      className="w-8 h-8 rounded-full border"
+                    >
+                      −
+                    </button>
 
-                      <button
-                        onClick={handleAddToCart}
-                        className="w-full sm:w-auto px-6 py-3 bg-rose-600 text-white font-bold rounded-xl hover:bg-rose-700 transition shadow-md hover:shadow-rose-200 flex items-center justify-center gap-2"
-                      >
-                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-                        </svg>
-                        أضف للسلة
-                      </button>
+                    <span className="w-8 text-center font-bold">
+                      {quantities[index]}
+                    </span>
+
+                    <button
+                      onClick={() => {
+                        const q = [...quantities];
+                        q[index]++;
+                        setQuantities(q);
+                      }}
+                      className="w-8 h-8 rounded-full border"
+                    >
+                      +
+                    </button>
                   </div>
                 ) : (
-                  <div className="bg-red-50 text-red-600 px-4 py-2 rounded-xl font-bold inline-block border border-red-100">
+                  <span className="text-red-600 font-bold">
                     نفذت الكمية
-                  </div>
+                  </span>
                 )}
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+
+          {/* زر الإضافة للسلة */}
+          <button
+            disabled={totalSelected === 0}
+            onClick={handleAddToCart}
+            className={`mt-6 w-full py-4 rounded-2xl font-bold text-white ${
+              totalSelected === 0
+                ? 'bg-stone-300 cursor-not-allowed'
+                : 'bg-rose-600 hover:bg-rose-700'
+            }`}
+          >
+            إضافة إلى السلة
+          </button>
         </div>
 
-        {/* Left Column: Product Info (Sticky) - Controls removed as requested */}
+        {/* معلومات المنتج */}
         <div className="lg:col-span-4">
-          <div className="sticky top-24 bg-white p-6 rounded-3xl shadow-xl border border-stone-100">
-            <div className="flex justify-between items-start mb-4">
-              <span className="bg-rose-50 text-rose-600 px-3 py-1 rounded-full text-sm font-bold">
-                {product.category}
-              </span>
-            </div>
+          <div className="sticky top-24 bg-white p-6 rounded-3xl border shadow">
+            <span className="bg-rose-50 text-rose-600 px-3 py-1 rounded-full text-sm font-bold">
+              {product.category}
+            </span>
 
-            <h1 className="text-2xl font-extrabold text-stone-900 mb-4 leading-tight">
+            <h1 className="text-2xl font-extrabold mt-4 mb-4">
               {product.name}
             </h1>
 
-            <div className="text-2xl font-bold text-stone-700 mb-6">
-              وصف المنتج
+            <div className="text-2xl font-bold text-rose-600 mb-4">
+              {product.price.toLocaleString()} د.ع
             </div>
 
-            <p className="text-stone-500 leading-relaxed mb-4">
+            <p className="text-stone-600 leading-relaxed">
               {product.description}
             </p>
-            
-            <div className="border-t border-stone-100 pt-4 mt-4 text-sm text-stone-400">
-               * يمكنك اختيار الكمية المطلوبة لكل صورة من القائمة الجانبية.
+
+            <div className="mt-4 text-sm text-stone-400">
+              اختر اللون والكمية من الصور
             </div>
           </div>
         </div>
