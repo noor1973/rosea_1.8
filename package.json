@@ -1,4 +1,3 @@
-
 const products =
   JSON.parse(localStorage.getItem("rosea_products")) || [
     {
@@ -24,3 +23,6 @@ products.forEach(p => {
         <h3>${p.name}</h3>
         <p>${p.price.toLocaleString()} د.ع</p>
       </div>
+    </div>
+  `;
+});
