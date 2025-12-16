@@ -1,16 +1,15 @@
-const products =
-  JSON.parse(localStorage.getItem("rosea_products")) || [
-    {
-      id: 1,
-      name: "شريط ساتان",
-      price: 5000,
-      images: [
-        "images/rose1.jpg",
-        "images/rose2.jpg",
-        "images/rose3.jpg"
-      ]
-    }
-  ];
+const products = [
+  {
+    id: 1,
+    name: "شريط ساتان",
+    price: 5000,
+    images: [
+      "images/rose1.jpg",
+      "images/rose2.jpg",
+      "images/rose3.jpg"
+    ]
+  }
+];
 
 const container = document.getElementById("products");
 container.innerHTML = "";
@@ -18,7 +17,7 @@ container.innerHTML = "";
 products.forEach(p => {
   container.innerHTML += `
     <div class="product">
-      <img src="${p.images[0]}" onclick="openModal(${p.id})">
+      <img src="${p.images[0]}" onclick="openProduct(${p.id})">
       <div class="info">
         <h3>${p.name}</h3>
         <p>${p.price.toLocaleString()} د.ع</p>
