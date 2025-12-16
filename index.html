@@ -67,6 +67,30 @@
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
     <script type="module" src="/firebase.js"></script>
+<div id="overlay" onclick="closeProduct()"></div>
+
+<div id="productModal">
+  <div class="modalBox">
+
+    <div class="thumbs" id="thumbs"></div>
+
+    <img id="mainImg">
+
+    <div class="details">
+      <h2 id="pName"></h2>
+      <h3 id="pPrice"></h3>
+
+      <div class="qty">
+        <button onclick="qtyChange(-1)">−</button>
+        <span id="qty">1</span>
+        <button onclick="qtyChange(1)">+</button>
+      </div>
+
+      <button class="add" onclick="addToCartModal()">إضافة إلى السلة</button>
+    </div>
+
+  </div>
+</div>
 
   </body>
 </html>
